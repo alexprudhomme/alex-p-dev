@@ -33,9 +33,21 @@ const keys = {
     }
 }
 const player_state = {
-    standing:{
+    idle: {
+        left: false,
         right: false,
-
+    },
+    run: {
+        left: false,
+        right: false,
+    },
+    jump: {
+        left: false,
+        right: false,
+    },
+    fall: {
+        left: false,
+        right: false,
     }
 }
 
@@ -58,20 +70,11 @@ function drawPlayer(player){
 
 function updatePlayer(player){
     player.frames++;
-    switch(player.frames){
-        case 15:
-            player.picture = 1;
-            break;
-        case 30:
-            player.picture = 2;
-            break;
-        case 45:
-            player.picture = 3;
-            break;
-        case 60:
+    if (player.frames % player.animation_state_modulo == 0){
+        player.picture++;
+        if (player.picture == 4){
             player.picture = 0;
-            player.frames = 0;
-            break;
+        }
     }
 
     drawPlayer(player);
@@ -88,19 +91,19 @@ function updatePlayer(player){
 function animatePlayerMovement(player){
     console.log(player.position.x)
     if(keys.right.pressed && player.position.x < 400){
-        player.setImageStandRight();
+        player.setImageRunRight();
         player.velocity.x = 3;
     } else if (keys.left.pressed && player.position.x > 0){
         player.velocity.x = -3;
-        player.setImageStandLeft();
+        player.setImageRunLeft();
     }else {
         player.velocity.x = 0;
         if (keys.right.pressed){
             platforms.forEach((platform) => {platform.position.x -= 3});
-            player.setImageStandRight();
+            player.setImageRunRight();
         }else if (keys.left.pressed){
             platforms.forEach((platform) => {platform.position.x += 3});
-            player.setImageStandLeft();
+            player.setImageRunLeft();
         }
     }
 }
@@ -154,9 +157,11 @@ addEventListener('keyup', ({code}) => {
             break;
         case 'ArrowRight':
             keys.right.pressed = false;
+            player.setImageStandRight();
             break;
         case 'ArrowLeft':
             keys.left.pressed = false;
+            player.setImageStandLeft();
             break;
     }
 })
