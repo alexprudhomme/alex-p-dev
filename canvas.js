@@ -94,12 +94,13 @@ function animatePlayerMovement(player){
 }
 
 function checkCollision(player){
-    const gapUnderPlayer = 25;
+    var gapUnderPlayer = 25;
+    var gapSidePlayer = 50;
     platforms.forEach((platform) => {
         if(player.position.y + player.height <= platform.position.y + gapUnderPlayer
         && player.position.y + player.height + player.velocity.y >= platform.position.y + gapUnderPlayer
-        && player.position.x + player.width >= platform.position.x
-        && player.position.x <= platform.position.x + platform.width){
+        && player.position.x + player.width - gapSidePlayer >= platform.position.x
+        && player.position.x + gapSidePlayer <= platform.position.x + platform.width){
             player.velocity.y = 0;
         }
     }); 
