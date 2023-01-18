@@ -1,13 +1,7 @@
-const imgSpriteRunLeft = new Image();
-const imgSpriteRunRight = new Image();
-const imgSpriteStandRight = new Image();
-const imgSpriteStandLeft = new Image();
-imgSpriteRunLeft.src = './img/spriteRunLeft.png';
-imgSpriteRunRight.src = './img/spriteRunRight.png';
-imgSpriteStandRight.src = './img/spriteStandRight.png';
-imgSpriteStandLeft.src = './img/spriteStandLeft.png';
-const img_idle = new Image();
-img_idle.src = './img/duck_idle_scaled_10x_pngcrushed.png'
+const img_idle_right = new Image();
+const img_idle_left = new Image();
+img_idle_left.src = './img/duck_idle_left.png'
+img_idle_right.src = './img/duck_idle_right.png'
 export class Player {
     constructor(){
         this.position = {
@@ -20,15 +14,15 @@ export class Player {
         }
         this.width = 160;
         this.height = 160;
-        this.image = img_idle;
+        this.image = img_idle_left;
         this.frames = 0;
         this.picture = 0;
     }
     setImageStandLeft(){
-        this.image = imgSpriteStandLeft;
+        this.image = img_idle_left;
     }
     setImageStandRight(){
-        this.image = imgSpriteStandRight;
+        this.image = img_idle_right;
     }
     setImageRunLeft(){
         this.image = imgSpriteRunLeft;

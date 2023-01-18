@@ -6,7 +6,7 @@ export class Platform{
             x,
             y
         }
-        this.width = 200;
+        this.width = 400;
         this.height = 50;
         this.image = imgPlatform
     }

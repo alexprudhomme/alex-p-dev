@@ -6,14 +6,21 @@ imgHills.src = './img/hills.png';
 
 import { Player } from './src/player.js';
 import { Platform } from './src/platform.js';
+
 const canvas = document.querySelector('canvas'); 
 const c = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 const gravity = 0.6;
 const player = new Player();
 const platforms = [
-    new Platform({x:-1, y: 576 - 50}),
-    new Platform({x:300, y:150}),
-    new Platform({x:400, y:200})];
+    new Platform({x: -1, y:window.innerHeight/2}),
+    new Platform({x: 397, y:window.innerHeight/2}),
+    new Platform({x: 795, y:window.innerHeight/2}),
+    new Platform({x: 1193, y:window.innerHeight/2}),
+    new Platform({x: 1591, y:window.innerHeight/2})];
+
 const keys = {
     right: {
         pressed: false,
@@ -25,10 +32,12 @@ const keys = {
         pressed: false,
     }
 }
+const player_state = {
+    standing:{
+        right: false,
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
+    }
+}
 
 function drawPlatform(platform){
     c.drawImage(platform.image, platform.position.x, platform.position.y, platform.width, platform.height);
@@ -49,7 +58,6 @@ function drawPlayer(player){
 
 function updatePlayer(player){
     player.frames++;
-    console.log(player.frames)
     switch(player.frames){
         case 15:
             player.picture = 1;
@@ -78,17 +86,21 @@ function updatePlayer(player){
 }
 
 function animatePlayerMovement(player){
+    console.log(player.position.x)
     if(keys.right.pressed && player.position.x < 400){
+        player.setImageStandRight();
         player.velocity.x = 3;
-    } else if (keys.left.pressed && player.position.x > 100){
+    } else if (keys.left.pressed && player.position.x > 0){
         player.velocity.x = -3;
+        player.setImageStandLeft();
     }else {
         player.velocity.x = 0;
         if (keys.right.pressed){
-            platforms.forEach((platform) => {platform.position.x -= 5});
-            
+            platforms.forEach((platform) => {platform.position.x -= 3});
+            player.setImageStandRight();
         }else if (keys.left.pressed){
-            platforms.forEach((platform) => {platform.position.x += 5});
+            platforms.forEach((platform) => {platform.position.x += 3});
+            player.setImageStandLeft();
         }
     }
 }
@@ -107,6 +119,8 @@ function checkCollision(player){
 }  
 
 function animate(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     requestAnimationFrame(animate);
     c.fillStyle = 'white';
     c.fillRect(0, 0, canvas.width, canvas.height);
