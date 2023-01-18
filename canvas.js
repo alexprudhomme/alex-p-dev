@@ -94,15 +94,16 @@ function animatePlayerMovement(player){
 }
 
 function checkCollision(player){
+    const gapUnderPlayer = 25;
     platforms.forEach((platform) => {
-        if(player.position.y + player.height<= platform.position.y
-        && player.position.y + player.height + player.velocity.y >= platform.position.y
+        if(player.position.y + player.height <= platform.position.y + gapUnderPlayer
+        && player.position.y + player.height + player.velocity.y >= platform.position.y + gapUnderPlayer
         && player.position.x + player.width >= platform.position.x
         && player.position.x <= platform.position.x + platform.width){
             player.velocity.y = 0;
         }
     }); 
-}
+}  
 
 function animate(){
     requestAnimationFrame(animate);
